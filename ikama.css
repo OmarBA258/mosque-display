@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100dvh;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 50% 38%,
+            #16203e 0%,
+            #070b20 48%,
+            #000000 100%
+        );
+    color: white;
+    font-family: Arial, "Tahoma", sans-serif;
+}
+
+.ikama-screen {
+    width: 100%;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: 5vw;
+    text-align: center;
+}
+
+.countdown {
+    direction: ltr;
+    font-size: clamp(72px, min(22vw, 30vh), 320px);
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .countdown {
+        font-size: clamp(54px, 18vw, 100px);
+    }
+}

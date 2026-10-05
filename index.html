@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>جامع القصر - حمام سوسة</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="screen">
+
+        <!-- Mosque name -->
+        <header class="mosque-name">
+            جامع القصر - حمام سوسة
+        </header>
+
+
+        <div class="clock-row">
+
+            <!-- Friday prayer time on the right -->
+            <section class="special-time jumuah-time">
+                    <div class="special-name">
+                        الجمعة
+                    </div>
+
+                    <div id="jumuah">
+                        --:--
+                    </div>
+            </section>
+
+
+            <!-- Sunrise on the left -->
+            <section class="special-time sunrise-time">
+                    <div class="special-name">
+                        الشروق
+                    </div>
+
+                    <div id="sunrise">
+                        --:--
+                    </div>
+            </section>
+
+
+            <!-- Main clock/date -->
+            <section class="clock-box">
+
+                <div id="clock" class="clock">
+                    00:00:00
+                </div>
+
+                <div id="date" class="date">
+                    جاري التحميل...
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- Countdown -->
+        <section class="countdown-box">
+
+            <img class="countdown-icon" src="cupola.png" alt="">
+
+            <span id="countdown-name">
+                الصلاة القادمة
+            </span>
+
+            <span class="countdown-after">بعد</span>
+
+            <span id="countdown">
+                00:00:00
+            </span>
+
+            <img class="countdown-icon" src="cupola.png" alt="">
+
+        </section>
+
+
+        <!-- Daily prayers -->
+        <section class="prayers">
+
+            <div class="prayer" id="fajr">
+                <div class="prayer-name">الفجر</div>
+                <div class="prayer-time">--:--</div>
+                <div class="prayer-iqama"></div>
+            </div>
+
+            <div class="prayer" id="dhuhr">
+                <div class="prayer-name">الظهر</div>
+                <div class="prayer-time">--:--</div>
+                <div class="prayer-iqama"></div>
+            </div>
+
+            <div class="prayer" id="asr">
+                <div class="prayer-name">العصر</div>
+                <div class="prayer-time">--:--</div>
+                <div class="prayer-iqama"></div>
+            </div>
+
+            <div class="prayer" id="maghrib">
+                <div class="prayer-name">المغرب</div>
+                <div class="prayer-time">--:--</div>
+                <div class="prayer-iqama"></div>
+            </div>
+
+            <div class="prayer" id="isha">
+                <div class="prayer-name">العشاء</div>
+                <div class="prayer-time">--:--</div>
+                <div class="prayer-iqama"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

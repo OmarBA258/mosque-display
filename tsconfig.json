@@ -1,0 +1,6 @@
+{
+  "extends": "./.hutch/devkit/tsconfig.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  }
+}
