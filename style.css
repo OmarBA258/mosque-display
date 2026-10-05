@@ -1,7 +1,57 @@
-* {
+﻿* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+/* Default theme values, overridable from settings.html */
+
+:root {
+    --bg-inner: #16203e;
+    --bg-mid: #070b20;
+    --bg-outer: #000000;
+
+    --text-color: #ffffff;
+    --iqama-opacity: 0.78;
+
+    --color-mosque: #ffffff;
+    --color-clock: #ffffff;
+    --color-date: #ffffff;
+    --color-special: #ffffff;
+    --color-countdown: #ffffff;
+    --color-prayer-name: #ffffff;
+    --color-prayer-time: #ffffff;
+    --color-prayer-iqama: #ffffff;
+
+    --scale-mosque: 1;
+    --scale-clock: 1;
+    --scale-date: 1;
+    --scale-special: 1;
+    --scale-countdown: 1;
+    --scale-icon: 1;
+    --scale-prayer-name: 1;
+    --scale-prayer-time: 1;
+    --scale-prayer-iqama: 1;
+
+    --scale-screen-pad: 1;
+    --scale-screen-gap: 1;
+    --scale-clock-gap: 1;
+    --scale-clock-width: 1;
+    --scale-prayer-gap: 1;
+    --scale-prayer-height: 1;
+    --scale-radius: 1;
+
+    --clock-box-bg: #820014;
+    --clock-box-alpha: 0.85;
+
+    --countdown-bg: #000000;
+    --countdown-alpha: 0.5;
+
+    --prayer-bg: #000000;
+    --prayer-alpha: 0.55;
+
+    --prayer-active-bg: #960014;
+    --prayer-active-alpha: 0.9;
 }
 
 html,
@@ -17,12 +67,14 @@ body {
     background:
         radial-gradient(
             circle at 50% 35%,
-            #16203e 0%,
-            #070b20 45%,
-            #000000 100%
+            var(--bg-inner) 0%,
+            var(--bg-mid) 45%,
+            var(--bg-outer) 100%
         );
 
-    color: white;
+    background-color: var(--bg-outer);
+
+    color: var(--text-color);
     font-family: Arial, "Tahoma", sans-serif;
 
     overflow: hidden;
@@ -42,8 +94,11 @@ body {
     justify-content: space-evenly;
     align-items: center;
 
-    padding: clamp(1.5vh, 2.5vh, 4vh) clamp(2vw, 4vw, 5vw);
-    gap: clamp(1vh, 2vh, 3vh);
+    padding:
+        calc(clamp(1.5vh, 2.5vh, 4vh) * var(--scale-screen-pad))
+        calc(clamp(2vw, 4vw, 5vw) * var(--scale-screen-pad));
+
+    gap: calc(clamp(1vh, 2vh, 3vh) * var(--scale-screen-gap));
 }
 
 
@@ -56,15 +111,24 @@ body {
     align-items: center;
     gap: clamp(0.5vh, 1vh, 1.5vh);
 
-    font-size: clamp(40px, min(6vw, 10vh), 150px);
+    font-size:
+        calc(
+            clamp(40px, min(6vw, 10vh), 150px) *
+            var(--scale-mosque)
+        );
+
     font-weight: bold;
+
+    color: var(--color-mosque);
 
     margin: 0;
 
     text-shadow:
         0 5px 10px rgba(0, 0, 0, 0.8);
+
     line-height: 1.05;
 }
+
 
 /* Clock */
 
@@ -73,9 +137,14 @@ body {
     margin: 0;
 
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, min(48vw, 55vh * 1.6)) minmax(0, 1fr);
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, min(48vw, 55vh * 1.6) * var(--scale-clock-width, 1))
+        minmax(0, 1fr);
+
     align-items: center;
-    gap: clamp(1vw, 3vw, 4vw);
+    gap: calc(clamp(1vw, 3vw, 4vw) * var(--scale-clock-gap));
 }
 
 
@@ -87,11 +156,20 @@ body {
 
     margin: 0;
 
-    background: rgba(130, 0, 20, 0.85);
+    background:
+        rgba(
+            var(--clock-box-bg-r, 130),
+            var(--clock-box-bg-g, 0),
+            var(--clock-box-bg-b, 20),
+            var(--clock-box-alpha)
+        );
 
-    border-radius: clamp(1.5vh, 3vh, 4vh);
+border-radius:
+        calc(clamp(1.5vh, 3vh, 4vh) * var(--scale-radius));
 
-    padding: clamp(1.5vh, 2.5vh, 4vh) clamp(1.5vw, 3vw, 4vw);
+    padding:
+        calc(clamp(1.5vh, 2.5vh, 4vh) * var(--scale-screen-gap))
+        calc(clamp(1.5vw, 3vw, 4vw) * var(--scale-screen-pad));
 
     text-align: center;
 
@@ -101,8 +179,15 @@ body {
 
 
 .clock {
-    font-size: clamp(48px, min(9vw, 13vh), 220px);
+    font-size:
+        calc(
+            clamp(48px, min(9vw, 13vh), 220px) *
+            var(--scale-clock)
+        );
+
     font-weight: bold;
+
+    color: var(--color-clock);
 
     direction: ltr;
 
@@ -112,10 +197,18 @@ body {
 
 
 .date {
-    margin-top: clamp(0.5vh, 1.5vh, 2vh);
+    margin-top: calc(clamp(0.5vh, 1.5vh, 2vh) * var(--scale-screen-gap));
 
-    font-size: clamp(20px, min(3vw, 5vh), 80px);
+    font-size:
+        calc(
+            clamp(20px, min(3vw, 5vh), 80px) *
+            var(--scale-date)
+        );
+
     font-weight: bold;
+
+    color: var(--color-date);
+
     line-height: 1.1;
 }
 
@@ -129,20 +222,36 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: clamp(0.25em, 0.8vw, 0.9em);
+    gap: calc(clamp(0.25em, 0.8vw, 0.9em) * var(--scale-icon));
     flex-wrap: nowrap;
 
     margin: 0;
 
-    padding: clamp(0.8vh, 1.8vh, 2.5vh) clamp(1vw, 2.5vw, 3.5vw);
+    padding:
+        calc(clamp(0.8vh, 1.8vh, 2.5vh) * var(--scale-screen-gap))
+        calc(clamp(1vw, 2.5vw, 3.5vw) * var(--scale-screen-pad));
 
-    background: rgba(0, 0, 0, 0.5);
+    background:
+        rgba(
+            var(--countdown-bg-r, 0),
+            var(--countdown-bg-g, 0),
+            var(--countdown-bg-b, 0),
+            var(--countdown-alpha)
+        );
 
     text-align: center;
 
-    font-size: clamp(22px, min(3.5vw, 5.5vh), 80px);
+    font-size:
+        calc(
+            clamp(22px, min(3.5vw, 5.5vh), 80px) *
+            var(--scale-countdown)
+        );
 
-    border-radius: clamp(1vh, 2vh, 2.5vh);
+    color: var(--color-countdown);
+
+    border-radius:
+        calc(clamp(1vh, 2vh, 2.5vh) * var(--scale-radius));
+
     white-space: nowrap;
 }
 
@@ -156,15 +265,15 @@ body {
 }
 
 .countdown-icon {
-    width: clamp(0.6em, 0.9em, 1.1em);
-    height: clamp(0.6em, 0.9em, 1.1em);
+    width: calc(clamp(0.6em, 0.9em, 1.1em) * var(--scale-icon));
+    height: calc(clamp(0.6em, 0.9em, 1.1em) * var(--scale-icon));
+
     flex: 0 0 auto;
     object-fit: contain;
 }
 
 #countdown {
     direction: ltr;
-
     font-weight: bold;
 }
 
@@ -187,10 +296,17 @@ body {
 
     text-align: center;
 
-    font-size: clamp(24px, min(4vw, 6vh), 90px);
+    font-size:
+        calc(
+            clamp(24px, min(4vw, 6vh), 90px) *
+            var(--scale-special)
+        );
+
+    color: var(--color-special);
 
     text-shadow:
         0 6px 12px rgba(0, 0, 0, 0.8);
+
     line-height: 1.1;
 }
 
@@ -198,7 +314,8 @@ body {
 .special-name {
     font-weight: bold;
 
-    margin-bottom: clamp(0.4vh, 0.8vh, 1.2vh);
+    margin-bottom:
+        calc(clamp(0.4vh, 0.8vh, 1.2vh) * var(--scale-screen-gap));
 }
 
 
@@ -206,7 +323,6 @@ body {
 
 .prayers {
     width: 100%;
-
     margin: 0;
 
     display: grid;
@@ -214,22 +330,37 @@ body {
     grid-template-columns:
         repeat(5, minmax(0, 1fr));
 
-    gap: clamp(1.5vw, 3vw, 4vw);
+    gap: calc(clamp(1.5vw, 3vw, 4vw) * var(--scale-prayer-gap));
 
     align-items: stretch;
 }
 
 
 .prayer {
-    min-height: clamp(100px, min(18vh, 22vw), 320px);
+    min-height:
+        calc(
+            clamp(100px, min(18vh, 22vw), 320px) *
+            var(--scale-prayer-height, 1)
+        );
 
-    background: rgba(0, 0, 0, 0.55);
+    background:
+        rgba(
+            var(--prayer-bg-r, 0),
+            var(--prayer-bg-g, 0),
+            var(--prayer-bg-b, 0),
+            var(--prayer-alpha)
+        );
 
-    border-radius: clamp(1.2vh, 2.5vh, 3vh);
+    border-radius:
+        calc(clamp(1.2vh, 2.5vh, 3vh) * var(--scale-radius));
 
-    padding: clamp(1vh, 2.5vh, 3.5vh) clamp(0.8vw, 2vw, 2.5vw);
+    padding:
+        calc(clamp(1vh, 2.5vh, 3.5vh) * var(--scale-screen-gap))
+        calc(clamp(0.8vw, 2vw, 2.5vw) * var(--scale-screen-pad));
 
     text-align: center;
+
+    color: var(--text-color);
 
     display: flex;
     flex-direction: column;
@@ -239,35 +370,63 @@ body {
     transition:
         background 0.3s,
         transform 0.3s;
+
     overflow: hidden;
 }
 
 
 .prayer-name {
-    font-size: clamp(22px, min(4vw, 6vh), 90px);
+    font-size:
+        calc(
+            clamp(22px, min(4vw, 6vh), 90px) *
+            var(--scale-prayer-name)
+        );
 
     font-weight: bold;
+
+    color: var(--color-prayer-name);
+
     line-height: 1.1;
 }
 
 
 .prayer-time {
-    margin-top: clamp(0.5vh, 1.2vh, 1.8vh);
+    margin-top:
+        calc(clamp(0.5vh, 1.2vh, 1.8vh) * var(--scale-screen-gap));
 
-    font-size: clamp(28px, min(4.5vw, 7vh), 100px);
+    font-size:
+        calc(
+            clamp(28px, min(4.5vw, 7vh), 100px) *
+            var(--scale-prayer-time)
+        );
 
     font-weight: bold;
+
+    color: var(--color-prayer-time);
 
     direction: ltr;
     line-height: 1.1;
 }
 
+
 .prayer-iqama {
     max-width: 100%;
-    margin-top: clamp(0.4vh, 1vh, 1.5vh);
-    font-size: clamp(12px, min(1.8vw, 2.5vh), 24px);
+
+    margin-top:
+        calc(clamp(0.4vh, 1vh, 1.5vh) * var(--scale-screen-gap));
+
+    font-size:
+        calc(
+            clamp(12px, min(1.8vw, 2.5vh), 24px) *
+            var(--scale-prayer-iqama)
+        );
+
     line-height: 1.15;
-    opacity: 0.78;
+
+    opacity: var(--iqama-opacity);
+
+    color: var(--color-prayer-iqama);
+
     overflow-wrap: anywhere;
 }
 
@@ -275,7 +434,13 @@ body {
 /* Current / next prayer */
 
 .prayer.active {
-    background: rgba(150, 0, 20, 0.9);
+    background:
+        rgba(
+            var(--prayer-active-bg-r, 150),
+            var(--prayer-active-bg-g, 0),
+            var(--prayer-active-bg-b, 20),
+            var(--prayer-active-alpha)
+        );
 
     transform: scale(1.04);
 
@@ -284,42 +449,121 @@ body {
 }
 
 
+/* Settings button */
+
+.settings-btn {
+    position: absolute;
+
+    top: clamp(0.5vh, 1.5vh, 2.5vh);
+    left: clamp(0.5vw, 1.5vw, 3vw);
+
+    z-index: 10;
+
+    width: clamp(34px, 5vh, 72px);
+    height: clamp(34px, 5vh, 72px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: calc(clamp(18px, 3vh, 42px));
+    line-height: 1;
+
+    background: rgba(0, 0, 0, 0.45);
+    color: var(--text-color);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    opacity: 0.35;
+
+    transition:
+        opacity 0.25s,
+        transform 0.25s,
+        background 0.25s;
+}
+
+.settings-btn:hover,
+.settings-btn:focus-visible {
+    opacity: 1;
+    transform: scale(1.1);
+    background: rgba(130, 0, 20, 0.85);
+    outline: none;
+}
+
+
+/* Small screens */
+
 @media (max-width: 800px) {
     .clock-row {
         grid-template-columns: 1fr 1.6fr 1fr;
-        gap: 1.5vw;
+        gap: calc(1.5vw * var(--scale-clock-gap));
     }
 
     .clock {
-        font-size: clamp(38px, min(9vw, 11vh), 90px);
+        font-size:
+            calc(
+                clamp(38px, min(9vw, 11vh), 90px) *
+                var(--scale-clock)
+            );
     }
 
     .date {
-        font-size: clamp(16px, min(3vw, 4.5vh), 28px);
+        font-size:
+            calc(
+                clamp(16px, min(3vw, 4.5vh), 28px) *
+                var(--scale-date)
+            );
     }
 
     .special-time {
-        font-size: clamp(18px, min(3.5vw, 5vh), 28px);
+        font-size:
+            calc(
+                clamp(18px, min(3.5vw, 5vh), 28px) *
+                var(--scale-special)
+            );
     }
 
     .countdown-box {
-        font-size: clamp(18px, min(4vw, 5vh), 30px);
+        font-size:
+            calc(
+                clamp(18px, min(4vw, 5vh), 30px) *
+                var(--scale-countdown)
+            );
         width: 95vw;
     }
 
     .prayer-name {
-        font-size: clamp(18px, min(4vw, 5vh), 30px);
+        font-size:
+            calc(
+                clamp(18px, min(4vw, 5vh), 30px) *
+                var(--scale-prayer-name)
+            );
     }
 
     .prayer-time {
-        font-size: clamp(22px, min(5vw, 6vh), 36px);
+        font-size:
+            calc(
+                clamp(22px, min(5vw, 6vh), 36px) *
+                var(--scale-prayer-time)
+            );
     }
 
     .prayer-iqama {
-        font-size: clamp(10px, min(2.7vw, 2.2vh), 18px);
+        font-size:
+            calc(
+                clamp(10px, min(2.7vw, 2.2vh), 18px) *
+                var(--scale-prayer-iqama)
+            );
     }
 
     .mosque-name {
-        font-size: clamp(32px, min(6vw, 8vh), 60px);
+        font-size:
+            calc(
+                clamp(32px, min(6vw, 8vh), 60px) *
+                var(--scale-mosque)
+            );
     }
 }

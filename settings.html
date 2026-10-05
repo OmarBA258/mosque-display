@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>الإعدادات - جامع القصر - حمام سوسة</title>
+
+    <link rel="stylesheet" href="settings.css">
+</head>
+
+<body>
+
+    <header class="settings-header">
+
+        <h1>الإعدادات</h1>
+
+        <p>
+            غيّر الأحجام والألوان، ثم اضفظ.
+            التغييرات تظهر مباشرة على الشاشة الرئيسية.
+        </p>
+
+        <div class="header-actions">
+
+            <button
+                id="save"
+                class="btn btn-save"
+            >
+                حفظ
+            </button>
+
+            <button
+                id="reset"
+                class="btn btn-reset"
+            >
+                استعادة الافتراضي
+            </button>
+
+            <a
+                id="back"
+                class="btn btn-back"
+                href="index.html"
+            >
+                العودة للشاشة
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main
+        id="groups"
+        class="groups"
+    ></main>
+
+
+    <footer class="settings-footer">
+
+        <span id="status" class="status"></span>
+
+        <button
+            id="save-bottom"
+            class="btn btn-save"
+        >
+            حفظ
+        </button>
+
+    </footer>
+
+    <script src="settings-core.js"></script>
+    <script src="settings.js"></script>
+
+</body>
+
+</html>

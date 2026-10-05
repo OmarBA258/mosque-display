@@ -542,6 +542,10 @@ function displayCountdown(milliseconds) {
 
 // Start
 
+// Apply saved display settings before the first paint of content.
+
+applySettings(loadSettings());
+
 loadPrayerData();
 
 

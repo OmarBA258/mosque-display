@@ -21,6 +21,10 @@ export default {
             "ikama.html": "views/mainview/ikama.html",
             "ikama.css": "views/mainview/ikama.css",
             "ikama.js": "views/mainview/ikama.js",
+            "settings.html": "views/mainview/settings.html",
+            "settings.css": "views/mainview/settings.css",
+            "settings-core.js": "views/mainview/settings-core.js",
+            "settings.js": "views/mainview/settings.js",
             "cupola.png": "views/mainview/cupola.png",
             "data/prayer-times.json": "views/mainview/data/prayer-times.json"
         },
