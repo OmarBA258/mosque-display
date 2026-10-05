@@ -90,6 +90,40 @@ function timeToMinutes(time) {
 }
 
 
+// Convert minutes into HH:MM
+
+function minutesToTime(totalMinutes) {
+
+    const wrapped =
+        ((totalMinutes % 1440) + 1440) % 1440;
+
+    const hours =
+        Math.floor(wrapped / 60);
+
+    const minutes =
+        wrapped % 60;
+
+    return `${String(hours).padStart(2, "0")}:` +
+        `${String(minutes).padStart(2, "0")}`;
+}
+
+
+// Iqama time = adhan time + iqama minutes.
+// Some prayers already store an absolute time instead,
+// so only numeric settings are added to the adhan.
+
+function getIqamaTime(adhanTime, setting) {
+
+    if (typeof setting !== "number") {
+        return setting;
+    }
+
+    return minutesToTime(
+        timeToMinutes(adhanTime) + setting
+    );
+}
+
+
 // Load JSON file
 
 async function loadPrayerData() {
@@ -204,11 +238,11 @@ function updatePrayerTimes(today) {
             continue;
         }
 
-        const visible = prayer.id === "dhuhr";
-
-        iqamaLabel.textContent = visible
-            ? `${prayerData.iqama.dhuhr}`
-            : `+${prayerData.iqama[prayer.id]}`;
+        iqamaLabel.textContent =
+            getIqamaTime(
+                today.times[prayer.id],
+                prayerData.iqama[prayer.id]
+            );
     }
 }
 

@@ -1,83 +1,136 @@
+/* Settings UI, shared by the popup drawer on index.html
+   and the standalone settings.html page. */
+
 * {
     box-sizing: border-box;
-    margin: 0;
+}
+
+.groups {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+
+    gap: 1.6vh 1.4vw;
+
+    align-content: start;
+}
+
+.group {
+    background: rgba(0, 0, 0, 0.45);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+
+    padding: 1.6vh 1.4vw;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.group-title {
+    font-size: clamp(15px, 1.4vw, 22px);
+    font-weight: bold;
+
+    padding-bottom: 0.6vh;
+    margin-bottom: 1.4vh;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+
+    margin-bottom: 1.5vh;
+}
+
+.control:last-child {
+    margin-bottom: 0;
+}
+
+.control-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1vw;
+}
+
+.control-label {
+    font-size: clamp(12px, 1.1vw, 17px);
+    font-weight: bold;
+}
+
+.control-value {
+    font-size: clamp(11px, 1vw, 15px);
+
+    opacity: 0.7;
+
+    direction: ltr;
+
+    min-width: 5ch;
+    text-align: center;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 24px;
+
+    accent-color: #c8a227;
+    cursor: pointer;
+}
+
+input[type="color"] {
+    width: 100%;
+    height: 42px;
+
     padding: 0;
+
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+
+    cursor: pointer;
 }
 
-html,
-body {
-    min-height: 100%;
-}
+.text-input {
+    width: 100%;
 
-body {
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            #1b2447 0%,
-            #0d1228 45%,
-            #05070f 100%
-        );
+    padding: 0.7vh 0.8vw;
+
+    font-family: inherit;
+    font-size: clamp(13px, 1.2vw, 18px);
 
     color: #ffffff;
 
-    font-family: Arial, "Tahoma", sans-serif;
-
-    padding: 3vh 3vw 6vh;
-
-    display: flex;
-    flex-direction: column;
-    gap: 2.5vh;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
 }
 
-
-/* Header */
-
-.settings-header {
-    text-align: center;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1vh;
+.text-input:focus {
+    outline: none;
+    border-color: #c8a227;
 }
 
-.settings-header h1 {
-    font-size: clamp(26px, 4.5vw, 54px);
-    font-weight: bold;
-}
-
-.settings-header p {
-    max-width: 70ch;
-
-    font-size: clamp(13px, 1.6vw, 20px);
-
-    opacity: 0.75;
-    line-height: 1.6;
-}
-
-.header-actions {
-    display: flex;
-    flex-wrap: wrap;
+.panel-colors {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     gap: 1vw;
-    justify-content: center;
-    margin-top: 1vh;
+    align-items: center;
 }
-
-
-/* Buttons */
 
 .btn {
     font-family: inherit;
-    font-size: clamp(14px, 1.8vw, 22px);
+    font-size: clamp(13px, 1.2vw, 18px);
     font-weight: bold;
 
-    padding: 0.9vh 2vw;
-    min-width: 10ch;
+    padding: 0.8vh 1.6vw;
 
     color: #ffffff;
 
     border: none;
-    border-radius: 10px;
+    border-radius: 9px;
 
     cursor: pointer;
 
@@ -106,117 +159,190 @@ body {
     background: #14569b;
 }
 
-
-/* Groups */
-
-.groups {
-    flex: 1;
-
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fit, minmax(320px, 1fr));
-
-    gap: 2vh 2vw;
-
-    align-content: start;
+.status {
+    font-size: clamp(12px, 1.1vw, 16px);
+    opacity: 0.7;
+    min-height: 1.4em;
 }
 
 
-.group {
-    background: rgba(0, 0, 0, 0.45);
+/* Popup drawer on the display page */
 
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+.settings-drawer {
+    position: fixed;
 
-    padding: 2vh 1.8vw;
+    inset-block: 0;
+    inset-inline-start: 0;
 
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.35);
-}
+    width: min(42vw, 560px);
+    min-width: min(320px, 92vw);
 
-.group-title {
-    font-size: clamp(17px, 2.2vw, 26px);
-    font-weight: bold;
+    z-index: 100;
 
-    padding-bottom: 0.8vh;
-    margin-bottom: 1.6vh;
-
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-
-/* Control rows */
-
-.control {
     display: flex;
     flex-direction: column;
-    gap: 0.6vh;
+    gap: 1.2vh;
 
-    margin-bottom: 1.8vh;
+    padding: 2vh 1.6vw;
+
+    background: rgba(4, 6, 14, 0.94);
+    backdrop-filter: blur(6px);
+
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.15);
+
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+
+    transform: translateX(-100%);
+
+    transition: transform 0.3s ease;
 }
 
-.control:last-child {
-    margin-bottom: 0;
+/* In RTL the drawer sits on the right, so it hides by
+   sliding further right instead of left. */
+
+html[dir="rtl"] .settings-drawer {
+    transform: translateX(100%);
 }
 
-.control-head {
+body.drawer-open .settings-drawer {
+    transform: translateX(0);
+}
+
+.drawer-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1vw;
 }
 
-.control-label {
-    font-size: clamp(13px, 1.6vw, 19px);
+.drawer-title {
+    font-size: clamp(18px, 2vw, 30px);
     font-weight: bold;
 }
 
-.control-value {
-    font-size: clamp(12px, 1.5vw, 18px);
+.drawer-close {
+    width: clamp(28px, 3vh, 42px);
+    height: clamp(28px, 3vh, 42px);
 
-    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    direction: ltr;
+    font-size: clamp(13px, 1.6vh, 20px);
 
-    min-width: 5ch;
-    text-align: center;
-}
+    color: #ffffff;
 
-input[type="range"] {
-    width: 100%;
-    height: 26px;
-
-    accent-color: #c8a227;
-    cursor: pointer;
-}
-
-input[type="color"] {
-    width: 100%;
-    height: 46px;
-
-    padding: 0;
-
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
     border-radius: 8px;
 
     cursor: pointer;
 }
 
+.drawer-close:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
 
-/* Panel row = color + opacity together */
+.drawer-hint {
+    font-size: clamp(11px, 1vw, 15px);
 
-.panel-colors {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
+    opacity: 0.65;
+    line-height: 1.5;
+}
+
+.drawer-footer {
+    position: sticky;
+    bottom: -2vh;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 1vw;
-    align-items: end;
+
+    margin-top: auto;
+    padding-top: 1.2vh;
+
+    background: rgba(4, 6, 14, 0.94);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.drawer-footer .status {
+    flex: 1 1 100%;
 }
 
 
-/* Footer */
+/* Keep the display visible while the drawer is open */
 
-.settings-footer {
+body.drawer-open .screen {
+    padding-inline-start:
+        calc(min(42vw, 560px) + 1vw);
+}
+
+.screen {
+    transition: padding 0.3s ease;
+}
+
+
+/* Standalone settings page */
+
+body.settings-page {
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #1b2447 0%,
+            #0d1228 45%,
+            #05070f 100%
+        );
+
+    color: #ffffff;
+
+    font-family: Arial, "Tahoma", sans-serif;
+
+    padding: 3vh 3vw 6vh;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vh;
+}
+
+.settings-page .settings-header {
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vh;
+}
+
+.settings-page .settings-header h1 {
+    font-size: clamp(26px, 4.5vw, 54px);
+    font-weight: bold;
+}
+
+.settings-page .settings-header p {
+    max-width: 70ch;
+
+    font-size: clamp(13px, 1.6vw, 20px);
+
+    opacity: 0.75;
+    line-height: 1.6;
+}
+
+.settings-page .header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vw;
+    justify-content: center;
+    margin-top: 1vh;
+}
+
+.settings-page .groups {
+    flex: 1;
+}
+
+.settings-page .settings-footer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -228,16 +354,18 @@ input[type="color"] {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.status {
-    font-size: clamp(12px, 1.5vw, 18px);
-    opacity: 0.7;
-    min-height: 1.5em;
-}
-
-
-/* Small screens */
 
 @media (max-width: 700px) {
+    .settings-drawer {
+        width: 100vw;
+        min-width: 0;
+    }
+
+    body.drawer-open .screen {
+        padding-inline-start:
+            clamp(2vw, 4vw, 5vw);
+    }
+
     .groups {
         grid-template-columns: 1fr;
     }

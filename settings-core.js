@@ -9,6 +9,14 @@ const SETTINGS_KEY = "mosqueSettings";
 
 const settingsSchema = {
 
+    texts: [
+        {
+            key: "mosque-name",
+            label: "اسم المسجد",
+            default: "جامع القصر - حمام سوسة"
+        }
+    ],
+
     colors: [
         { key: "bg-inner", label: "الخلفية - المركز", default: "#16203e" },
         { key: "bg-mid", label: "الخلفية - الوسط", default: "#070b20" },
@@ -93,6 +101,7 @@ const settingsSchema = {
 function getDefaultSettings() {
 
     const defaults = {
+        texts: {},
         colors: {},
         textColors: {},
         textSizes: {},
@@ -100,6 +109,10 @@ function getDefaultSettings() {
         panels: {},
         extra: {}
     };
+
+    for (const item of settingsSchema.texts) {
+        defaults.texts[item.key] = item.default;
+    }
 
     for (const item of settingsSchema.colors) {
         defaults.colors[item.key] = item.default;
@@ -150,6 +163,7 @@ function loadSettings() {
     }
 
     return {
+        texts: { ...defaults.texts, ...saved.texts },
         colors: { ...defaults.colors, ...saved.colors },
         textColors: { ...defaults.textColors, ...saved.textColors },
         textSizes: { ...defaults.textSizes, ...saved.textSizes },
@@ -209,6 +223,8 @@ function hexToRgbChannels(hex) {
 
 function applySettings(settings) {
 
+    applyTextSettings(settings);
+
     const root =
         document.documentElement;
 
@@ -244,5 +260,36 @@ function applySettings(settings) {
         style.setProperty(`--${key}-bg-g`, channels.g);
         style.setProperty(`--${key}-bg-b`, channels.b);
         style.setProperty(`--${key}-alpha`, value.alpha);
+    }
+}
+
+
+// Elements that carry editable text.
+// data-setting matches a key in settingsSchema.texts.
+
+const textTargets = [
+    { key: "mosque-name", selector: "[data-setting='mosque-name']" }
+];
+
+
+// Write editable text into the display
+
+function applyTextSettings(settings) {
+
+    for (const target of textTargets) {
+
+        const value =
+            settings.texts?.[target.key];
+
+        if (typeof value !== "string") {
+            continue;
+        }
+
+        const nodes =
+            document.querySelectorAll(target.selector);
+
+        for (const node of nodes) {
+            node.textContent = value;
+        }
     }
 }

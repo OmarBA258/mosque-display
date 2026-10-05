@@ -427,6 +427,9 @@ border-radius:
 
     color: var(--color-prayer-iqama);
 
+    direction: ltr;
+    line-height: 1.15;
+
     overflow-wrap: anywhere;
 }
 
@@ -452,12 +455,12 @@ border-radius:
 /* Settings button */
 
 .settings-btn {
-    position: absolute;
+    position: fixed;
 
     top: clamp(0.5vh, 1.5vh, 2.5vh);
-    left: clamp(0.5vw, 1.5vw, 3vw);
+    inset-inline-start: clamp(0.5vw, 1.5vw, 3vw);
 
-    z-index: 10;
+    z-index: 110;
 
     width: clamp(34px, 5vh, 72px);
     height: clamp(34px, 5vh, 72px);
@@ -491,6 +494,11 @@ border-radius:
     transform: scale(1.1);
     background: rgba(130, 0, 20, 0.85);
     outline: none;
+}
+
+body.drawer-open .settings-btn {
+    opacity: 0;
+    pointer-events: none;
 }
 
 

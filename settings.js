@@ -1,6 +1,8 @@
-// Settings page logic.
-// Builds the UI from settingsSchema, previews live,
-// saves to localStorage.
+// Settings UI.
+// Runs in two modes:
+//  - popup, on index.html, where the display stays visible
+//    behind a drawer so every change shows up live
+//  - full page, on settings.html
 
 let currentSettings = loadSettings();
 
@@ -12,9 +14,11 @@ const statusLabel =
     document.getElementById("status");
 
 
-// Preview settings on this page by loading the main stylesheet
-// into a hidden iframe. Simpler: keep preview on the main
-// screen itself, and only show a note here.
+// The display page, when running as a popup.
+
+const screenElement =
+    document.querySelector(".screen");
+
 
 function buildGroup(title) {
 
@@ -32,6 +36,52 @@ function buildGroup(title) {
     section.appendChild(heading);
 
     return section;
+}
+
+
+// Text control
+
+function createTextControl(
+    label,
+    value,
+    onChange
+) {
+
+    const control =
+        document.createElement("div");
+
+    control.className = "control";
+
+    const head =
+        document.createElement("div");
+
+    head.className = "control-head";
+
+    const name =
+        document.createElement("span");
+
+    name.className = "control-label";
+    name.textContent = label;
+
+    head.appendChild(name);
+
+    const input =
+        document.createElement("input");
+
+    input.type = "text";
+    input.className = "text-input";
+    input.dir = "rtl";
+    input.value = value;
+
+    input.addEventListener(
+        "input",
+        () => onChange(input.value)
+    );
+
+    control.appendChild(head);
+    control.appendChild(input);
+
+    return control;
 }
 
 
@@ -145,7 +195,95 @@ function createRangeControl(
 }
 
 
-// Two-decimal percentage format
+// Panel control = one color plus its opacity
+
+function createPanelControl(item) {
+
+    const panel =
+        currentSettings.panels[item.key];
+
+    const control =
+        document.createElement("div");
+
+    control.className = "control";
+
+    const head =
+        document.createElement("div");
+
+    head.className = "control-head";
+
+    const name =
+        document.createElement("span");
+
+    name.className = "control-label";
+    name.textContent = item.label;
+
+    const readout =
+        document.createElement("span");
+
+    readout.className = "control-value";
+    readout.textContent =
+        percent(panel.alpha);
+
+    head.appendChild(name);
+    head.appendChild(readout);
+
+    const colors =
+        document.createElement("div");
+
+    colors.className = "panel-colors";
+
+    const colorInput =
+        document.createElement("input");
+
+    colorInput.type = "color";
+    colorInput.value = panel.color;
+
+    const alphaInput =
+        document.createElement("input");
+
+    alphaInput.type = "range";
+    alphaInput.min = 0;
+    alphaInput.max = 1;
+    alphaInput.step = 0.02;
+    alphaInput.value = panel.alpha;
+
+    colorInput.addEventListener(
+        "input",
+        () => {
+
+            panel.color =
+                colorInput.value;
+
+            preview();
+        }
+    );
+
+    alphaInput.addEventListener(
+        "input",
+        () => {
+
+            panel.alpha =
+                Number(alphaInput.value);
+
+            readout.textContent =
+                percent(panel.alpha);
+
+            preview();
+        }
+    );
+
+    colors.appendChild(colorInput);
+    colors.appendChild(alphaInput);
+
+    control.appendChild(head);
+    control.appendChild(colors);
+
+    return control;
+}
+
+
+// Formats
 
 function percent(value) {
 
@@ -153,15 +291,39 @@ function percent(value) {
 }
 
 
-// Two-decimal scale format
-
 function times(value) {
 
     return `${value.toFixed(2)}x`;
 }
 
 
-// Background colors group
+// Groups
+
+function buildTextsGroup() {
+
+    const group =
+        buildGroup("النصوص القابلة للتعديل");
+
+    for (const item of settingsSchema.texts) {
+
+        group.appendChild(
+            createTextControl(
+                item.label,
+                currentSettings.texts[item.key],
+                value => {
+
+                    currentSettings.texts[item.key] =
+                        value;
+
+                    preview();
+                }
+            )
+        );
+    }
+
+    return group;
+}
+
 
 function buildBackgroundGroup() {
 
@@ -189,8 +351,6 @@ function buildBackgroundGroup() {
 }
 
 
-// Text colors group
-
 function buildTextColorsGroup() {
 
     const group =
@@ -217,7 +377,21 @@ function buildTextColorsGroup() {
 }
 
 
-// Text sizes group
+function buildPanelsGroup() {
+
+    const group =
+        buildGroup("ألوان وشفافية الصناديق");
+
+    for (const item of settingsSchema.panels) {
+
+        group.appendChild(
+            createPanelControl(item)
+        );
+    }
+
+    return group;
+}
+
 
 function buildTextSizesGroup() {
 
@@ -252,8 +426,6 @@ function buildTextSizesGroup() {
     return group;
 }
 
-
-// Spacing group
 
 function buildSpacingGroup() {
 
@@ -312,105 +484,7 @@ function buildSpacingGroup() {
 }
 
 
-// Panels group = color + opacity per box
-
-function buildPanelsGroup() {
-
-    const group =
-        buildGroup("ألوان وشفافية الصناديق");
-
-    for (const item of settingsSchema.panels) {
-
-        const control =
-            document.createElement("div");
-
-        control.className = "control";
-
-        const head =
-            document.createElement("div");
-
-        head.className = "control-head";
-
-        const name =
-            document.createElement("span");
-
-        name.className = "control-label";
-        name.textContent = item.label;
-
-        const readout =
-            document.createElement("span");
-
-        readout.className = "control-value";
-
-        const panel =
-            currentSettings.panels[item.key];
-
-        readout.textContent =
-            percent(panel.alpha);
-
-        head.appendChild(name);
-        head.appendChild(readout);
-
-        const colors =
-            document.createElement("div");
-
-        colors.className = "panel-colors";
-
-        const colorInput =
-            document.createElement("input");
-
-        colorInput.type = "color";
-        colorInput.value = panel.color;
-
-        const alphaInput =
-            document.createElement("input");
-
-        alphaInput.type = "range";
-        alphaInput.min = 0;
-        alphaInput.max = 1;
-        alphaInput.step = 0.02;
-        alphaInput.value = panel.alpha;
-
-        colorInput.addEventListener(
-            "input",
-            () => {
-
-                panel.color =
-                    colorInput.value;
-
-                preview();
-            }
-        );
-
-        alphaInput.addEventListener(
-            "input",
-            () => {
-
-                panel.alpha =
-                    Number(alphaInput.value);
-
-                readout.textContent =
-                    percent(panel.alpha);
-
-                preview();
-            }
-        );
-
-        colors.appendChild(colorInput);
-        colors.appendChild(alphaInput);
-
-        control.appendChild(head);
-        control.appendChild(colors);
-
-        group.appendChild(control);
-    }
-
-    return group;
-}
-
-
-// Apply settings to this page's CSS variables,
-// so colors and sliders feel immediate.
+// Apply changes to the visible display
 
 function preview() {
 
@@ -418,11 +492,15 @@ function preview() {
 }
 
 
-// Show a short status message
+// Status line
 
 let statusTimer = null;
 
 function showStatus(message) {
+
+    if (!statusLabel) {
+        return;
+    }
 
     statusLabel.textContent = message;
 
@@ -443,12 +521,6 @@ function handleSave() {
     saveSettings(currentSettings);
 
     showStatus("تم الحفظ");
-
-    setTimeout(() => {
-
-        window.location.href = "index.html";
-
-    }, 700);
 }
 
 
@@ -469,15 +541,23 @@ function handleReset() {
 
     preview();
 
-    showStatus("تمت الاستعادة، اضغط حفظ للتثبيت");
+    showStatus("تمت الاستعادة");
 }
 
 
-// Build every group into the page
+// Build all groups
 
 function renderGroups() {
 
+    if (!groupsContainer) {
+        return;
+    }
+
     groupsContainer.innerHTML = "";
+
+    groupsContainer.appendChild(
+        buildTextsGroup()
+    );
 
     groupsContainer.appendChild(
         buildBackgroundGroup()
@@ -501,17 +581,67 @@ function renderGroups() {
 }
 
 
+// Drawer open/close, popup mode only
+
+function setDrawerOpen(open) {
+
+    document.body.classList.toggle(
+        "drawer-open",
+        open
+    );
+
+    const toggle =
+        document.getElementById("drawerToggle");
+
+    if (toggle) {
+        toggle.setAttribute(
+            "aria-expanded",
+            String(open)
+        );
+    }
+}
+
+
+// Wire up a button by id
+
+function bind(id, event, handler) {
+
+    const element =
+        document.getElementById(id);
+
+    if (element) {
+        element.addEventListener(event, handler);
+    }
+}
+
+
 // Start
 
 renderGroups();
 
 preview();
 
-document.getElementById("save")
-    .addEventListener("click", handleSave);
+bind("save", "click", handleSave);
+bind("save-bottom", "click", handleSave);
+bind("reset", "click", handleReset);
 
-document.getElementById("save-bottom")
-    .addEventListener("click", handleSave);
+bind("drawerToggle", "click", () => {
 
-document.getElementById("reset")
-    .addEventListener("click", handleReset);
+    const open =
+        document.body.classList.contains("drawer-open");
+
+    setDrawerOpen(!open);
+});
+
+bind("drawerClose", "click", () => {
+
+    setDrawerOpen(false);
+});
+
+
+document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape") {
+        setDrawerOpen(false);
+    }
+});

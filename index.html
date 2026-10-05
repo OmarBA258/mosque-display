@@ -8,6 +8,7 @@
     <title>جامع القصر - حمام سوسة</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="settings.css">
 </head>
 
 <body>
@@ -15,7 +16,7 @@
     <main class="screen">
 
         <!-- Mosque name -->
-        <header class="mosque-name">
+        <header class="mosque-name" data-setting="mosque-name">
             جامع القصر - حمام سوسة
         </header>
 
@@ -117,21 +118,79 @@
 
         </section>
 
-        <!-- Settings button -->
-        <a
-            id="settingsBtn"
-            class="settings-btn"
-            href="settings.html"
-            title="الإعدادات"
-            aria-label="الإعدادات"
-        >
-            &#9881;
-        </a>
+        </main>
 
-    </main>
+    <!-- Settings drawer -->
+    <button
+        id="drawerToggle"
+        class="settings-btn"
+        title="الإعدادات"
+        aria-label="الإعدادات"
+        aria-expanded="false"
+    >
+        &#9881;
+    </button>
+
+    <aside
+        id="drawer"
+        class="settings-drawer"
+        aria-hidden="true"
+    >
+
+        <header class="drawer-header">
+
+            <h2 class="drawer-title">
+                الإعدادات
+            </h2>
+
+            <button
+                id="drawerClose"
+                class="drawer-close"
+                title="إغلاق"
+                aria-label="إغلاق"
+            >
+                &#10005;
+            </button>
+
+        </header>
+
+        <p class="drawer-hint">
+            التغييرات تظهر فورًا على الشاشة
+        </p>
+
+        <div
+            id="groups"
+            class="groups"
+        ></div>
+
+        <footer class="drawer-footer">
+
+            <span
+                id="status"
+                class="status"
+            ></span>
+
+            <button
+                id="reset"
+                class="btn btn-reset"
+            >
+                استعادة الافتراضي
+            </button>
+
+            <button
+                id="save"
+                class="btn btn-save"
+            >
+                حفظ
+            </button>
+
+        </footer>
+
+    </aside>
 
     <script src="settings-core.js"></script>
     <script src="app.js"></script>
+    <script src="settings.js"></script>
 
 </body>
 
